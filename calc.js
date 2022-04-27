@@ -38,3 +38,15 @@ let currentOperator = null; // stores current operator
 document.querySelector('#add').addEventListener('click', (e) => {
     operatorClickHandling(add);
 });
+
+document.querySelector('#subtract').addEventListener('click', (e) => {
+    operatorClickHandling(subtract);
+});
+
+document.querySelector('#multiply').addEventListener('click', (e) => {
+    operatorClickHandling(multiply);
+});
+
+document.querySelector('#divide').addEventListener('click', (e) => {
+    operatorClickHandling(divide);
+});
