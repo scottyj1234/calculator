@@ -18,19 +18,23 @@ function operate(operator, a, b) {
     return operator(a, b);
 }
 
-const display = document.querySelector('.display');
-let previousValue = 0;   // stores previous value prior to pressing an operator button
-let currentOperator = null; // stores current operator
-
-document.querySelector('#add').addEventListener('click', (e) => {
+function operatorClickHandling(operator) {
     if (!currentOperator) {
-        currentOperator = add;
+        currentOperator = operator;
         previousValue = Number.parseFloat(display.textContent);
     } else {
         const currentValue = Number.parseFloat(display.textContent);
         const evaluation = currentOperator(previousValue, currentValue);
         display.textContent = evaluation.toString();
-        currentOperator = add;
+        currentOperator = operator;
         previousValue = evaluation;
     }
+}
+
+const display = document.querySelector('.display');
+let previousValue = 0;   // stores previous value prior to pressing an operator button
+let currentOperator = null; // stores current operator
+
+document.querySelector('#add').addEventListener('click', (e) => {
+    operatorClickHandling(add);
 });
