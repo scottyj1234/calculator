@@ -31,6 +31,7 @@ function operatorClickHandling(operator) {
         display.textContent = evaluation.toString();
         currentOperator = (b) => operate(operator, evaluation, b);
     }
+    clearNumber = true;
 }
 
 function numberClickHandling(number) {
@@ -67,6 +68,7 @@ document.querySelector('#equals').addEventListener('click', (e) => {
         const evaluation = currentOperator(displayValue);
         display.textContent = evaluation;
         currentOperator = null;
+        clearNumber = true;
     }
 });
 
