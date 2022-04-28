@@ -72,6 +72,11 @@ document.querySelector('#equals').addEventListener('click', (e) => {
     }
 });
 
+document.querySelector('#clear').addEventListener('click', (e) => {
+    currentOperator = null;
+    display.textContent = "0";
+})
+
 document.querySelector('#N0').addEventListener('click', (e) => numberClickHandling(0));
 document.querySelector('#N1').addEventListener('click', (e) => numberClickHandling(1));
 document.querySelector('#N2').addEventListener('click', (e) => numberClickHandling(2));
