@@ -33,6 +33,15 @@ function operatorClickHandling(operator) {
     }
 }
 
+function numberClickHandling(number) {
+    if (clearNumber){
+        display.textContent = "";
+        clearNumber = false;
+    }
+    display.textContent = display.textContent.concat(number);
+}
+
+let clearNumber = true;
 const display = document.querySelector('.display');
 let currentOperator = null; // stores current operator
 
@@ -60,3 +69,14 @@ document.querySelector('#equals').addEventListener('click', (e) => {
         currentOperator = null;
     }
 });
+
+document.querySelector('#N0').addEventListener('click', (e) => numberClickHandling(0));
+document.querySelector('#N1').addEventListener('click', (e) => numberClickHandling(1));
+document.querySelector('#N2').addEventListener('click', (e) => numberClickHandling(2));
+document.querySelector('#N3').addEventListener('click', (e) => numberClickHandling(3));
+document.querySelector('#N4').addEventListener('click', (e) => numberClickHandling(4));
+document.querySelector('#N5').addEventListener('click', (e) => numberClickHandling(5));
+document.querySelector('#N6').addEventListener('click', (e) => numberClickHandling(6));
+document.querySelector('#N7').addEventListener('click', (e) => numberClickHandling(7));
+document.querySelector('#N8').addEventListener('click', (e) => numberClickHandling(8));
+document.querySelector('#N9').addEventListener('click', (e) => numberClickHandling(9));
