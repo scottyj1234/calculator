@@ -24,12 +24,14 @@ function operate(operator, a, b) {
 
 function operatorClickHandling(operator) {
     const displayValue = Number.parseFloat(display.textContent);
-    if (!currentOperator) {
-        currentOperator = (b) => operate(operator, displayValue, b);
+    if (!lastOperator) {
+        lastOperator = operator;
+        lastNumber = displayValue;
     } else {
-        const evaluation = currentOperator(displayValue);
+        const evaluation = operate(lastOperator, lastNumber, displayValue);
         display.textContent = evaluation.toString();
-        currentOperator = (b) => operate(operator, evaluation, b);
+        lastOperator = operator;
+        lastNumber = evaluation;
     }
     clearNumber = true;
 }
@@ -42,9 +44,11 @@ function numberClickHandling(number) {
     display.textContent = display.textContent.concat(number);
 }
 
-let clearNumber = true;
+let clearNumber = false;
 const display = document.querySelector('.display');
-let currentOperator = null; // stores current operator
+let lastOperator = null; // stores current operator
+let lastNumber = null;
+let repeatOperation = null;
 
 document.querySelector('#add').addEventListener('click', (e) => {
     operatorClickHandling(add);
@@ -63,17 +67,22 @@ document.querySelector('#divide').addEventListener('click', (e) => {
 });
 
 document.querySelector('#equals').addEventListener('click', (e) => {
-    if (currentOperator){
-        const displayValue = Number.parseFloat(display.textContent);
-        const evaluation = currentOperator(displayValue);
-        display.textContent = evaluation;
-        currentOperator = null;
+    const displayValue = Number.parseFloat(display.textContent);
+    if (lastOperator){
+        const repeatOperator = lastOperator // used for creating repeatOperation
+        repeatOperation = (a) => operate(repeatOperator, a, displayValue);
+        const evaluation = operate(lastOperator, lastNumber, displayValue);
+        display.textContent = evaluation.toString();
+        lastOperator = null;
         clearNumber = true;
+    } else if (repeatOperation) {
+        const evaluation = repeatOperation(displayValue);
+        display.textContent = evaluation.toString();
     }
 });
 
 document.querySelector('#clear').addEventListener('click', (e) => {
-    currentOperator = null;
+    lastOperator = null;
     display.textContent = "0";
 })
 
@@ -87,3 +96,13 @@ document.querySelector('#N6').addEventListener('click', (e) => numberClickHandli
 document.querySelector('#N7').addEventListener('click', (e) => numberClickHandling(7));
 document.querySelector('#N8').addEventListener('click', (e) => numberClickHandling(8));
 document.querySelector('#N9').addEventListener('click', (e) => numberClickHandling(9));
+
+document.querySelector('#decimal').addEventListener('click', (e) => {
+    if (display.textContent.includes('.')) return;
+
+    if (clearNumber) {
+        numberClickHandling(0);
+    }
+
+    display.textContent = display.textContent.concat('.');
+})
