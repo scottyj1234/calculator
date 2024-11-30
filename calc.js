@@ -37,3 +37,21 @@ function operate(leftOperand, rightOperand, operator) {
             return null;
     }
 }
+
+const displayElement = document.querySelector("div.display");
+let displayValue = "0";
+
+const numberButtons = document.querySelectorAll("button.numberButton");
+numberButtons.forEach((button) => button.addEventListener("click", (e) => {
+    addDigit(button.textContent);
+}))
+
+function addDigit(numberCharacter) {
+    if (displayValue === "0") {
+        displayValue = numberCharacter;
+    } else {
+        displayValue += numberCharacter;
+    }
+    displayElement.textContent = displayValue;
+}
+
