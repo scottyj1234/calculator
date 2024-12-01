@@ -4,7 +4,6 @@ div.calculatorContainer {
     border-style: solid;
     border-color: black;
     border-width: 1px;
-    width: 480px;
     justify-self: center;
     align-content: center;
 }
