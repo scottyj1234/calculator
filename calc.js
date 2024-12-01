@@ -17,7 +17,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return a / b;
+    return (b !== 0) ? a / b : "DIV/0 ERROR!";
 }
 
 function operate(leftOperand, rightOperand, operator) {
@@ -66,6 +66,14 @@ document.querySelector("button#btnClear").addEventListener("click", (e) => {
     clearAll();
 })
 
+function disableAll() {
+    document.querySelectorAll("button").forEach((button) => {
+        if (button.id !== "btnClear") {
+            button.disabled = true;
+        }
+    })
+}
+
 function clearAll() {
     leftOperand = null;
     rightOperand = null;
@@ -74,6 +82,8 @@ function clearAll() {
     displayToClear = false;
     displayValue = "0";
     displayElement.textContent = displayValue;
+
+    document.querySelectorAll("button").forEach(button => button.disabled = false)
 }
 
 function addDigit(numberCharacter) {
@@ -100,6 +110,12 @@ function operatorEntry(operatorPressed) {
             rightOperand = Number(displayValue);
         }
         leftOperand = operate(leftOperand, rightOperand, operator);
+        if (leftOperand === "DIV/0 ERROR!") {
+            disableAll();
+            displayElement.textContent = leftOperand
+            return;
+        }
+
         displayValue = String(leftOperand)
         displayElement.textContent = displayValue;
         allToClear = true;
@@ -109,6 +125,12 @@ function operatorEntry(operatorPressed) {
     if (leftOperand !== null && rightOperand === null) {
         rightOperand = Number(displayValue);
         leftOperand = operate(leftOperand, rightOperand, operator);
+        if (leftOperand === "DIV/0 ERROR!") {
+            disableAll();
+            displayElement.textContent = leftOperand;
+            return;
+        }
+
         operator = operatorPressed;
         displayValue = String(leftOperand);
         displayElement.textContent = displayValue;
@@ -122,7 +144,6 @@ function operatorEntry(operatorPressed) {
 }
 
 function addDecimalAttempt() {
-    if (displayValue.includes(".")) return;
 
     if (allToClear) clearAll();
 
@@ -132,7 +153,8 @@ function addDecimalAttempt() {
         displayValue = "0.";
         displayToClear = false;
     } else {
-        displayValue += numberCharacter;
+        if (displayValue.includes(".")) return;
+        displayValue += ".";
     }
     displayElement.textContent = displayValue;
 }
