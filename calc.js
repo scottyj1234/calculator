@@ -144,7 +144,6 @@ function operatorEntry(operatorPressed) {
 }
 
 function addDecimalAttempt() {
-
     if (allToClear) clearAll();
 
     // if displayToClear is true, then an operator was pressed and we are showing the previous value up until they start entering the next value
