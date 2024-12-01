@@ -4,13 +4,21 @@ div.calculatorContainer {
     border-style: solid;
     border-color: black;
     border-width: 1px;
-    width: 500px;
+    width: 480px;
     justify-self: center;
+    align-content: center;
 }
 
 div.row {
     display: flex;
-    align-self: center;
+    align-content: center;
+    justify-content: left;
+    flex: 1;
+}
+
+div.row.first {
+    display: flex;
+    flex: 1;
 }
 
 div.display {
