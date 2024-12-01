@@ -1,4 +1,5 @@
 let leftOperand = null;
+let rightOperand = null;
 let operator = null;
 let displayToClear = false;
 let allToClear = false;
@@ -32,7 +33,7 @@ function operate(leftOperand, rightOperand, operator) {
         
         case "/":
             return divide(leftOperand, rightOperand);
-    
+        
         default:
             console.error(`Critical error: Invalid operator: ${operator}`);
             return null;
@@ -81,7 +82,9 @@ function addDigit(numberCharacter) {
 
     // if displayToClear is true, then an operator was pressed and we are showing the previous value up until they start entering the next value
     if (displayValue === "0" || displayToClear) {
+        rightOperand = null;
         displayValue = numberCharacter;
+        displayToClear = false;
     } else {
         displayValue += numberCharacter;
     }
@@ -90,6 +93,12 @@ function addDigit(numberCharacter) {
 
 function operatorEntry(operatorPressed) {
     if (operatorPressed === '=') {
+        // '=' pressed but no operator has been pressed; do nothing
+        if (operator === null) return;
+
+        if (rightOperand === null) {
+            rightOperand = Number(displayValue);
+        }
         leftOperand = operate(leftOperand, rightOperand, operator);
         displayValue = String(leftOperand)
         displayElement.textContent = displayValue;
@@ -97,21 +106,33 @@ function operatorEntry(operatorPressed) {
         return;
     }
 
-    if (leftOperand !== null) {
+    if (leftOperand !== null && rightOperand === null) {
         rightOperand = Number(displayValue);
         leftOperand = operate(leftOperand, rightOperand, operator);
         operator = operatorPressed;
         displayValue = String(leftOperand);
+        displayElement.textContent = displayValue;
     } else {
         leftOperand = Number(displayValue);
         operator = operatorPressed;
     }
 
+    allToClear = false;
     displayToClear = true;
 }
 
 function addDecimalAttempt() {
     if (displayValue.includes(".")) return;
-    displayValue += ".";
+
+    if (allToClear) clearAll();
+
+    // if displayToClear is true, then an operator was pressed and we are showing the previous value up until they start entering the next value
+    if (displayValue === "0" || displayToClear) {
+        rightOperand = null;
+        displayValue = "0.";
+        displayToClear = false;
+    } else {
+        displayValue += numberCharacter;
+    }
     displayElement.textContent = displayValue;
 }
